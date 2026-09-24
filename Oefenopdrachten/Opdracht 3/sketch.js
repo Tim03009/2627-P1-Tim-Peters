@@ -1,7 +1,11 @@
+let a;
+let b;
+
 function setup() {
-  createCanvas(400, 400);
+  createCanvas(600, 600);
 }
 
 function draw() {
   background(220);
+
 }

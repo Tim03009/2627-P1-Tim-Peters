@@ -51,7 +51,7 @@ circle(267, 75, 17)
 stroke(1);
 strokeWeight(2)
 fill('white');
-rect(225, 175, 83, 80);
+square(215, 165, 100, 10);
 fill('black')
 circle(242, 190, 20)
 circle(265, 212, 20)
