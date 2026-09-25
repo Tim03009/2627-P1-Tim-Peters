@@ -27,14 +27,17 @@ function resetBoard() {
 }
 
 function checkWinner(color) {
+  
   if (v1 === color && v2 === color && v3 === color) return true;
   if (v4 === color && v5 === color && v6 === color) return true;
   if (v7 === color && v8 === color && v9 === color) return true;
 
+  
   if (v1 === color && v4 === color && v7 === color) return true;
   if (v2 === color && v5 === color && v8 === color) return true;
   if (v3 === color && v6 === color && v9 === color) return true;
 
+  
   if (v1 === color && v5 === color && v9 === color) return true;
   if (v3 === color && v5 === color && v7 === color) return true;
 
@@ -42,20 +45,29 @@ function checkWinner(color) {
 }
 
 function setup() {
-  createCanvas(400, 400);
+  createCanvas(400, 500);
 }
 
 function draw() {
   background(220);
 
   fill('red');
-  rect(0, 0, 200, 400);
+  rect(0, 0, 200, 500);
 
   fill('blue');
-  rect(200, 0, 200, 400);
+  rect(200, 0, 200, 500);
 
   fill('black');
   rect(30, 30, 330, 330, 20);
+
+  // reset knop
+  fill('lightgrey');
+  rect(120, 385, 160, 40, 10);
+  fill('black');
+  textAlign(CENTER, CENTER);
+  textSize(16);
+  text('RESET', 200, 405);
+  textAlign(LEFT, BASELINE);
 
   fill(v1);
   rect(40, 40, 100, 100, 15);
@@ -100,6 +112,12 @@ function draw() {
 }
 
 function mouseClicked() {
+  // reset knop
+  if (mouseX > 120 && mouseX < 280 && mouseY > 385 && mouseY < 425) {
+    resetBoard();
+    return;
+  }
+
   // Als het spel afgelopen is, doe niets meer
   if (gameOver) return;
 
@@ -204,19 +222,19 @@ function mouseClicked() {
 
   if (checkWinner('red')) {
     gameOver = true;
-    setTimeout(resetBoard, 1000);
+    setTimeout(resetBoard, 1500);
     return;
   }
 
   if (checkWinner('blue')) {
     gameOver = true;
-    setTimeout(resetBoard, 1000);
+    setTimeout(resetBoard, 1500);
     return;
   }
 
   if (turn >= 9) {
     gameOver = true;
-    setTimeout(resetBoard, 1000);
+    setTimeout(resetBoard, 1500);
   }
 }
 
