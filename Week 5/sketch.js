@@ -1,32 +1,58 @@
 let screen = 'start';
 let currentQuestionIndex = 0;
+let score = 0;
 
 const questions = [
   {
     question: 'Wie won de eerste Ballon dor ooit?',
     answers: ['Stanley Matthews', 'R9', 'Pelé', 'Raymond Kopa'],
-    correctAnswer: 0,
+    correctAnswer: 'Stanley Matthews',
   },
   {
     question: 'Wie won de Champions League in 2018?',
     answers: ['Barcelona', 'Real Madrid', 'FC Bayern Munchen', 'Liverpool'],
-    correctAnswer: 1,
+    correctAnswer: 'Real Madrid',
   },
   {
     question: 'Hoelang speelde Messi bij FC Barcelona in het eerste elftal?',
     answers: ['16 jaar', '17 jaar', '15 jaar', '18 jaar'],
-    correctAnswer: 1,
+    correctAnswer: '17 jaar',
   },
   {
     question: 'Welke speler is de enige die in drie verschillende decennia in de Champions League heeft gescoord?',
     answers: ['Karim Benzema', 'Robert Lewandowski', 'Lionel Messi', 'Cristiano Ronaldo'],
-    correctAnswer: 3,
+    correctAnswer: 'Cristiano Ronaldo',
   },
   {
     question: 'Welke club heeft de meeste Europa League-titels gewonnen?',
     answers: ['Sevilla', 'Juventus', 'Inter Milan', 'Liverpool'],
-    correctAnswer: 0,
+    correctAnswer: 'Sevilla',
   },
+  {
+    question: 'welke speler de meeste Champions League-titels heeft gewonnen?',
+    answers: ['Luka Modrić', 'Karim Benzema', 'Toni Kroos', 'Francisco Gento'],
+    correctAnswer: 'Francisco Gento',
+  },
+  {
+    question: 'Welk land won de aller eerste world cup?',
+    answers: ['Argentinië', 'Brazilië', 'Uruguay', 'Nederland'],
+    correctAnswer: 'Uruguay',
+  },
+  {
+   question: 'Welke club uit de eredivisie heeft meerdere Champions League titels? ',
+    answers: ['FC Utrecht', 'Feyenoord', 'PSV', 'Ajax'],
+    correctAnswer: 'Ajax',
+  },
+  {
+   question: 'In welk jaar won FC Utrecht voor het eerst de KNVB Beker?',
+    answers: ['1978', '1985', '1992', '1987'],
+    correctAnswer: '1985',
+  },
+  {
+   question: 'Wie was de allereerste trainer van FC Utrecht toen de club in 1970 werd opgericht?',
+    answers: ['Bert Jacobs', 'Ron Jans', 'Ron Jans', 'Han Berger'],
+    correctAnswer: 'Bert Jacobs',
+  }
 ];
 let buttonX = [70, 430, 70, 430];
 let buttonY = [350, 350, 440, 440];
@@ -67,7 +93,7 @@ function draw() {
 
     fill('white');
     textSize(26);
-    text(currentQuestion.question, 400, 270);
+    text(currentQuestion.question, 40, 220, 720, 100);
 
     for (let i = 0; i < currentQuestion.answers.length; i++) {
       fill('white');
@@ -95,12 +121,16 @@ function draw() {
     fill('white');
     rect(290, 385, 220, 70, 12);
     fill('red');
-    textSize(26);
-    text('RESET', 400, 420);
+    textSize(22);
+    text('VOLGENDE VRAAG', 400, 420);
   } else if (screen === 'finished') {
     fill('white');
     textSize(28);
     text('Goed gedaan! Je bent klaar.', 400, 320);
+
+    fill('white');
+    textSize(26);
+    text(`Je hebt ${score} van de ${questions.length} goed!`, 400, 365);
 
     fill('white');
     rect(290, 385, 220, 70, 12);
@@ -111,17 +141,13 @@ function draw() {
 }
 
 function nextQuestion() {
-  currentQuestionIndex++;
-
-  if (currentQuestionIndex >= questions.length) {
-    screen = 'finished';
-  } else {
-    screen = 'question';
-  }
+  currentQuestionIndex += 1;
+  screen = currentQuestionIndex >= questions.length ? 'finished' : 'question';
 }
 
 function resetQuiz() {
   currentQuestionIndex = 0;
+  score = 0;
   screen = 'start';
 }
 
@@ -143,7 +169,8 @@ function mousePressed() {
         mouseY > buttonY[i] &&
         mouseY < buttonY[i] + 70
       ) {
-        if (i === currentQuestion.correctAnswer) {
+        if (currentQuestion.answers[i] === currentQuestion.correctAnswer) {
+          score += 1;
           if (currentQuestionIndex < questions.length - 1) {
             screen = 'next';
           } else {
@@ -159,9 +186,9 @@ function mousePressed() {
   }
 
   if (mouseX > 290 && mouseX < 510 && mouseY > 385 && mouseY < 455) {
-    if (screen === 'next') {
+    if (screen === 'next' || screen === 'wrong') {
       nextQuestion();
-    } else if (screen === 'wrong' || screen === 'finished') {
+    } else if (screen === 'finished') {
       resetQuiz();
     }
   }
